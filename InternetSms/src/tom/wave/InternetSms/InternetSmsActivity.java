@@ -3,11 +3,13 @@ package tom.wave.InternetSms;
 import java.io.IOException;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,12 +29,7 @@ public class InternetSmsActivity extends Activity {
         
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                try {
 					onSaveButtonClicked();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
             }
         });
     }
@@ -47,17 +44,35 @@ public class InternetSmsActivity extends Activity {
 		return null;
 	}
     
-	private void onSaveButtonClicked() throws IOException {
-		new PageLoader().execute("bash.org.ru");
+	private void onSaveButtonClicked() {
+		new PageLoader().execute("http:\\\\bash.org.ru");
 	}
 	
 	public class PageLoader extends AsyncTask<String, Integer, String> {
 		@Override
 		protected String doInBackground(String... urls) {
-//			Object doc = Jsoup.connect("http://en.wikipedia.org/").get();
-//			Elements newsHeadlines = doc.select("#mp-itn b a");
 			 publishProgress(1);
-	        return "hee";
+
+			if(urls.length > 0){
+				try {
+					Document doc = Jsoup.connect(urls[0]).get();
+			        return doc.html();
+
+				} catch (IOException e) {
+					e.printStackTrace();
+					Log.e("TOMEXCEPTION", "uncatched IOException");
+					return "uncathed IOException";
+				} catch (Exception e) {
+					e.printStackTrace();
+					Log.e("TOMEXCEPTION", "uncatched Exception");
+					return "uncathed Exception";
+				}
+			}
+			
+			return "";
+			
+//			Elements newsHeadlines = doc.select("#mp-itn b a");
+			
 	    }
 		
 		@Override
