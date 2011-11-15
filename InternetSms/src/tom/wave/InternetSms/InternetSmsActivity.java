@@ -45,7 +45,7 @@ public class InternetSmsActivity extends Activity {
 	}
     
 	private void onSaveButtonClicked() {
-		new PageLoader().execute("http:\\\\bash.org.ru");
+		new PageLoader().execute("http://bash.org.ru/");
 	}
 	
 	public class PageLoader extends AsyncTask<String, Integer, String> {
